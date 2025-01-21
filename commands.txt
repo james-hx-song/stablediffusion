@@ -1,0 +1,27 @@
+python scripts/txt2img.py --prompt "A serene mountain landscape at sunrise, no buildings, no people" --ckpt v2-1_768-ema-pruned.ckpt --config configs/stable-diffusion/v2-inference-v.yaml --H 768 --W 768 --device cuda --steps 100 --scale 0 --outdir outputs/txt2img-samples-2 --n_samples 4 --n_iter 1
+
+
+
+
+python scripts/img2img.py --prompt "Make the image van gaal style" --init-img outputs/img2img-samples/initial.png --strength 0.7 --ckpt v2-1_768-ema-pruned.ckpt --ddim_steps 50
+
+python scripts/img2img.py --prompt "A fantasy landscape, trending on artstation" --init-img outputs/img2img-samples/initial.png --strength 0.3 --ckpt v2-1_768-ema-pruned.ckpt --ddim_steps 50
+
+
+
+
+## Before running, depth2img
+pip install --upgrade gradio
+pip install timm
+python scripts/gradio/depth2img.py configs/stable-diffusion/v2-midas-inference.yaml 512-depth-ema.ckpt
+
+streamlit run scripts/streamlit/depth2img.py configs/stable-diffusion/v2-midas-inference.yaml 512-depth-ema.ckpt
+
+
+
+
+## Superresolution
+python scripts/gradio/superresolution.py configs/stable-diffusion/x4-upscaling.yaml x4-upscaler-ema.ckpt
+
+
+

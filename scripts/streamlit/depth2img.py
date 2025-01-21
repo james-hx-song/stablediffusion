@@ -113,6 +113,18 @@ def run():
     image = st.file_uploader("Image", ["jpg", "png"])
     if image:
         image = Image.open(image)
+        # Create outputs directory if it doesn't exist
+        import os
+        os.makedirs("outputs/depth2img", exist_ok=True)
+        
+        # Save uploaded image with timestamp
+        from datetime import datetime
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        save_path = os.path.join("outputs/depth2img", f"depth2img_{timestamp}.png")
+        image.save(save_path)
+        st.text(f"Saved input image to {save_path}")
+
+
         w, h = image.size
         st.text(f"loaded input image of size ({w}, {h})")
         width, height = map(lambda x: x - x % 64, (w, h))  # resize to integer multiple of 64
@@ -149,9 +161,13 @@ def run():
                 do_full_sample=do_full_sample,
             )
             st.write("Result")
-            for image in result:
+            # Save generated images with timestamp
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            for i, img in enumerate(result):
+                save_path = os.path.join("outputs/depth2img", f"depth2img_gen_{timestamp}_{i}.png")
+                img.save(save_path)
+                st.text(f"Saved generated image to {save_path}")
                 st.image(image, output_format='PNG')
-
 
 if __name__ == "__main__":
     run()

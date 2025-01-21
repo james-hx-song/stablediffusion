@@ -163,3 +163,7 @@ cython_debug/
 # IDEs
 .idea/
 .vscode/
+
+# Model weights
+*.ckpt
+midas_models/
