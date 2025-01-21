@@ -17,11 +17,13 @@ python scripts/gradio/depth2img.py configs/stable-diffusion/v2-midas-inference.y
 
 streamlit run scripts/streamlit/depth2img.py configs/stable-diffusion/v2-midas-inference.yaml 512-depth-ema.ckpt
 
-
+streamlit run scripts/streamlit/inpainting.py -- configs/stable-diffusion/v2-inpainting-inference.yaml 512-inpainting-ema.ckpt
 
 
 ## Superresolution
 python scripts/gradio/superresolution.py configs/stable-diffusion/x4-upscaling.yaml x4-upscaler-ema.ckpt
+
+streamlit run scripts/streamlit/superresolution.py -- configs/stable-diffusion/x4-upscaling.yaml x4-upscaler-ema.ckpt
 
 
 

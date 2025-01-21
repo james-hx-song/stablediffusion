@@ -149,6 +149,8 @@ def run():
 
         sampler.make_schedule(steps, ddim_eta=eta, verbose=True)
         if st.button("Sample"):
+            from datetime import datetime
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             result = paint(
                 sampler=sampler,
                 image=image,

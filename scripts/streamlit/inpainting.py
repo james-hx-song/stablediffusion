@@ -2,6 +2,7 @@ import sys
 import cv2
 import torch
 import numpy as np
+import os
 import streamlit as st
 from PIL import Image
 from omegaconf import OmegaConf
@@ -163,18 +164,22 @@ def run():
             stroke_color=stroke_color,
             background_color=bg_color,
             background_image=image,
-            update_streamlit=False,
+            update_streamlit=True,
             height=height,
             width=width,
             drawing_mode=drawing_mode,
             key="canvas",
         )
+
+        print(canvas_result)
         if canvas_result:
+            print("Get the mask")
             mask = canvas_result.image_data
             mask = mask[:, :, -1] > 0
-            if mask.sum() > 0:
+            if mask.sum() > 0 or st.button("Create"):
                 mask = Image.fromarray(mask)
 
+                print("Inpainting")
                 result = inpaint(
                     sampler=sampler,
                     image=image,
@@ -187,7 +192,13 @@ def run():
                     h=height, w=width, eta=eta
                 )
                 st.write("Inpainted")
+                from datetime import datetime
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
                 for image in result:
+                    save_path = os.path.join("outputs/inpainting", f"inpainting_gen_{timestamp}.png")
+                    image.save(save_path)
+                    st.text(f"Saved generated image to {save_path}")
                     st.image(image, output_format='PNG')
 
 
